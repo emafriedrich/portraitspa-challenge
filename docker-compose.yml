@@ -1,0 +1,25 @@
+version: "2"
+services:
+  elasticsearch:
+    image: elasticsearch:7.16.2
+    environment:
+      - node.name=node-1
+      - cluster.initial_master_nodes=node-1
+    ports:
+      - "9200:9200"
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-sw-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-sw-frontend
+    ports:
+      - "3000:3000"

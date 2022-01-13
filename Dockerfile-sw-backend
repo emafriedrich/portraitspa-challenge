@@ -1,0 +1,13 @@
+FROM ruby:2.7.0
+
+COPY sw-backend /app
+
+WORKDIR /app
+
+RUN bundle install
+
+RUN rake db:migrate
+
+RUN rake db:seed
+
+CMD [ "rails", "s", "-b", "0.0.0.0", "-p", "5000" ]
